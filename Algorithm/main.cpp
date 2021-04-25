@@ -1115,8 +1115,67 @@ void Question23()
 
 	printf("%d", Max);
 }
+
+//------------------------------------------------------------------------------------------------------------------------------------
+//Jolly Jumpers
+//N개의 정수로 이루어진 수열에 대해 서로 인접해 있는 두 수의 차가 1에서 N-1까지의 값을 모두 가지면 그 수열을 유쾌한 점퍼(jolly jumper)라고 부른다.
+//예를 들어 다음과 같은 수열에서 1 4 2 3 앞 뒤에 있는 숫자 차의 절대 값이 각각 3, 2, 1이므로 이 수열은 유쾌한 점퍼가 된다.
+//어떤 수열이 유쾌한 점퍼인지 판단할 수 있는 프로그램을 작성하라.
+//------------------------------------------------------------------------------------------------------------------------------------
+//나의 풀이 : 수를 입력받고 배열을 준비해둔다.
+//배열 인덱스를 활용해서 문제를 풀엇는데, 두수의 차를 구하고 두수의 차에 해당하는 인덱스 값을 증가시켜준다.
+//만약 그 값이 0이 아니라면 이미 이전에서 기록된것이니까 Jolly Jumpers라고 할 수없다.
+//------------------------------------------------------------------------------------------------------------------------------------
+void Question24()
+{
+	int Number;
+	int CheckNumber;
+	int PreviousNumber;
+	int CurrentNumber;
+	int* CheckArray;
+	int Index;
+	bool JollyJumperCorrect = true;
+
+	scanf_s("%d", &Number);
+
+	CheckArray = (int*)malloc(sizeof(int) * Number);
+	memset(CheckArray, 0, sizeof(int) * Number);
+
+	scanf_s("%d", &PreviousNumber);
+
+	for (int i = 1; i < Number; i++)
+	{
+		scanf_s("%d", &CheckNumber);
+		CurrentNumber = CheckNumber;
+
+		Index = abs(CurrentNumber - PreviousNumber);
+		
+		if (Index >= 1 && Index <= Number - 1 && CheckArray[Index] == 0)
+		{
+			CheckArray[Index]++;			
+		}
+		else
+		{
+			JollyJumperCorrect = false;
+			break;
+		}
+
+		PreviousNumber = CurrentNumber;
+	}
+
+	if (JollyJumperCorrect)
+	{
+		printf("YES");
+	}
+	else
+	{
+		printf("NO");
+	}
+}
+
 int main()
 {
-	Question23();	
+	Question24();
 	return 0;
 }
+

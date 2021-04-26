@@ -1173,9 +1173,55 @@ void Question24()
 	}
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------
+//석차 구하기
+//N명 학생의 수학점수가 입력되면 각 학생의 석차를 입력된 순서대로 출력하는 프로그램을 작성하세요.
+//------------------------------------------------------------------------------------------------------------------------------------
+//나의 풀이 : 학생수를 입력받고 수학점수를 점수 배열에 저장한다.
+//석차를 의미하는 석차배열의 값을 각각 학생 수로 초기화 해주고
+//수학점수를 하나 뽑아서 점수배열을 순회하며 석차를 구한다.
+//------------------------------------------------------------------------------------------------------------------------------------
+void Question25()
+{
+	int Number;
+	int CheckNumber;
+	int* RankArray;
+	int* CheckArray;
+	
+	scanf_s("%d", &Number);
+
+	RankArray = (int*)malloc(sizeof(int)*Number);
+	CheckArray = (int*)malloc(sizeof(int)*Number);
+	memset(CheckArray, 0, sizeof(int)*Number);	
+	
+	for (int i = 0; i < Number; i++)
+	{
+		scanf_s("%d", &CheckNumber);
+		CheckArray[i] = CheckNumber;
+		RankArray[i] = Number;
+	}
+
+	for (int i = 0; i < Number; i++)
+	{
+		for (int j = 0; j < Number; j++)
+		{
+			//자기자신은 제외
+			if (i != j && CheckArray[i] >= CheckArray[j] )
+			{
+				RankArray[i]--;
+			}
+		}
+	}
+
+	for (int i = 0; i < Number; i++)
+	{
+		printf("%d ", RankArray[i]);
+;	}
+}
+
 int main()
 {
-	Question24();
+	Question25();
 	return 0;
 }
 

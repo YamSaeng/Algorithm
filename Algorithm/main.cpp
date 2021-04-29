@@ -1585,9 +1585,71 @@ void Question32()
 	free(Array);
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------
+// 3등의 성적은?
+//N명의 수학성적이 주어지면 그 중 3등을 한 수학성적을 출력하는 프로그램을 작성하세요.
+//만약 학생의 점수가 100점이 3명, 99점이 2명, 98점이 5명, 97점이 3명 이런식으로 점수가
+//분포되면 1등은 3명이며, 2등은 2명이며 3등은 5명이 되어 98점이 3등을 한 점수가 됩니다.
+//------------------------------------------------------------------------------------------------------------------------------------
+//나의 풀이 : 선택 정렬을 이용해 입력받은 배열을 정렬하고 3등을 출력한다.
+//------------------------------------------------------------------------------------------------------------------------------------
+void Question33()
+{
+	int Number;
+	int ArrayNumber;
+	int Index;
+	int Temp;
+	int Rank = 0;
+	int Count = 0;
+	int* Array;
+
+	scanf_s("%d", &Number);
+
+	Array = (int*)malloc(sizeof(int)*Number);
+
+	for (int i = 0; i < Number; i++)
+	{
+		scanf_s("%d", &ArrayNumber);
+		Array[i] = ArrayNumber;
+	}
+
+	for (int i = 0; i < Number - 1; i++)
+	{
+		Index = i;
+		for (int j = i + 1; j < Number; j++)
+		{
+			if (Array[Index] < Array[j])
+			{
+				Index = j;
+			}
+		}
+
+		Temp = Array[i];
+		Array[i] = Array[Index];
+		Array[Index] = Temp;
+	}
+
+	
+	for (int i = 1; i < Number; i++)
+	{
+		if (Array[i - 1] != Array[i])
+		{
+			Count++;
+		}
+
+		if (Count == 2)
+		{
+			printf("%d", Array[i]);
+			break;
+		}
+	}
+
+	free(Array);
+}
+
 int main()
 {
-	Question32();
+	Question33();
 	return 0;
 }
 

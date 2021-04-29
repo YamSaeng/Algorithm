@@ -1647,9 +1647,55 @@ void Question33()
 	free(Array);
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------
+//버블 정렬
+//N개의 숫자가 입력되면 오름차순으로 정렬하여 출력하는 프로그램을 작성하세요.
+//정렬하는 방법은 버블정렬입니다.
+//------------------------------------------------------------------------------------------------------------------------------------
+//나의 풀이 : 버블 정렬 알고리즘 구현
+//------------------------------------------------------------------------------------------------------------------------------------
+void Question34()
+{
+	int Number;
+	int ArrayNumber;
+	int* Array;
+	int Temp;
+
+	scanf_s("%d", &Number);
+
+	Array = (int*)malloc(sizeof(int) * Number);
+
+	for (int i = 0; i < Number; i++)
+	{
+		scanf_s("%d", &ArrayNumber);
+		Array[i] = ArrayNumber;
+	}
+
+	for (int i = 0; i < Number - 1; i++)
+	{
+		for (int j = 0; j < Number - i - 1; j++)
+		{
+			if (Array[j] > Array[j + 1])
+			{
+				Temp = Array[j];
+				Array[j] = Array[j + 1];
+				Array[j + 1] = Temp;
+			}
+		}
+	}
+
+	for (int i = 0; i < Number; i++)
+	{
+		printf("%d ", Array[i]);
+	}
+
+	free(Array);
+}
+
 int main()
 {
-	Question33();
+	Question34();
+
 	return 0;
 }
 

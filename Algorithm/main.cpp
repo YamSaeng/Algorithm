@@ -1874,9 +1874,100 @@ void Question37()
 	}
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//두 배열 합치기
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//오름차순으로 정렬이 된 두 배열이 주어지면 두 배열을 오름차순으로 합쳐 출력하는 프로그램을 작성하세요
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//나의 풀이 : 합칠 배열을 준비하고 A 배열과 B 배열을 서로 비교해서 순서대로 합칠 배열에 넣어준다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+void Question39()
+{
+	int* AArray;
+	int AArraySize;
+		
+	int* BArray;
+	int BArraySize;
+	
+	int AArrayCheck = 0;
+	int BArrayCheck = 0;
+
+	int* SortArray;
+	int SortArrayIndex = 0;
+
+	scanf_s("%d", &AArraySize);
+
+	AArray = (int*)malloc(sizeof(int)*AArraySize);
+
+	for (int i = 0; i < AArraySize; i++)
+	{
+		scanf_s("%d", &AArray[i]);
+	}
+
+	scanf_s("%d", &BArraySize);
+
+	BArray = (int*)malloc(sizeof(int)*BArraySize);
+
+	for (int i = 0; i < BArraySize; i++)
+	{
+		scanf_s("%d", &BArray[i]);
+	}
+	
+	SortArray = (int*)malloc(sizeof(int)*(AArraySize + BArraySize));
+
+	//A 배열과 B 배열 서로 검사해서 새로운 배열에 할당
+	while (AArraySize >= AArrayCheck
+		&& BArraySize >= BArrayCheck)
+	{
+		if (AArray[AArrayCheck] > BArray[BArrayCheck])
+		{
+			SortArray[SortArrayIndex] = BArray[BArrayCheck];
+			BArrayCheck++;
+		}
+		else if(BArray[BArrayCheck] > AArray[AArrayCheck])
+		{
+			SortArray[SortArrayIndex] = AArray[AArrayCheck];			
+			AArrayCheck++;
+		}
+		else
+		{
+			SortArray[SortArrayIndex] = AArray[AArrayCheck];
+			AArrayCheck++;
+		}
+
+		SortArrayIndex++;
+	}
+	
+	SortArrayIndex--;
+
+	//A배열 남은 부분 새로운 배열에 할당
+	while (AArraySize >= AArrayCheck)
+	{
+		SortArray[SortArrayIndex] = AArray[AArrayCheck];
+		SortArrayIndex++;
+		AArrayCheck++;
+	}
+
+	//B배열 남은 부분 새로운 배열에 할당
+	while (BArraySize >= BArrayCheck)
+	{
+		SortArray[SortArrayIndex] = BArray[BArrayCheck];
+		SortArrayIndex++;
+		BArrayCheck++;
+	}
+
+	for (int i = 0; i < AArraySize + BArraySize; i++)
+	{
+		printf("%d ", SortArray[i]);
+	}
+
+	free(AArray);
+	free(BArray);	
+}
+
 int main()
 {
-	Question37();
+	Question39();
 
 	return 0;
 }

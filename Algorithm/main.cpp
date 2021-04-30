@@ -1916,8 +1916,8 @@ void Question39()
 	SortArray = (int*)malloc(sizeof(int)*(AArraySize + BArraySize));
 
 	//A 배열과 B 배열 서로 검사해서 새로운 배열에 할당
-	while (AArraySize >= AArrayCheck
-		&& BArraySize >= BArrayCheck)
+	while (AArraySize > AArrayCheck
+		&& BArraySize > BArrayCheck)
 	{
 		if (AArray[AArrayCheck] > BArray[BArrayCheck])
 		{
@@ -1936,12 +1936,10 @@ void Question39()
 		}
 
 		SortArrayIndex++;
-	}
-	
-	SortArrayIndex--;
+	}	
 
 	//A배열 남은 부분 새로운 배열에 할당
-	while (AArraySize >= AArrayCheck)
+	while (AArraySize > AArrayCheck)
 	{
 		SortArray[SortArrayIndex] = AArray[AArrayCheck];
 		SortArrayIndex++;
@@ -1949,7 +1947,7 @@ void Question39()
 	}
 
 	//B배열 남은 부분 새로운 배열에 할당
-	while (BArraySize >= BArrayCheck)
+	while (BArraySize > BArrayCheck)
 	{
 		SortArray[SortArrayIndex] = BArray[BArrayCheck];
 		SortArrayIndex++;
@@ -1963,11 +1961,136 @@ void Question39()
 
 	free(AArray);
 	free(BArray);	
+	free(SortArray);
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//교집합(투포인터 알고리즘)
+//두 집합 A,B가 주어지면 두 집합의 교집합을 출력하는 프로그램을 작성하세요.
+//첫 번째 줄에 집합 A의 크기 N(1<=N<=30000)이 주어집니다.
+//두 번째 줄에 N개의 원소가 주어집니다. 원소가 중복되어 주어지지 않습니다.
+//세 번째 줄에 집합 B의 크기 M(1<=M<=30000)이 주어집니다.
+//네 번째 줄에 M개의 원소가 주어집니다. 원소가 중복되어 주어지지 않습니다.
+//각 집합의 원소는 int형 변수의 크기를 넘지 않습니다.
+//두 집합의 교집합을 오름차순 정렬하여 출력합니다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//나의 풀이 : 두개의 배열을 받고 두 배열을 오름차순으로 정렬시켜준다.
+//오름차순으로 정렬된 상태에서 두 배열을 비교해서 같은 값이 있는지 판별해주고
+//없으면 각각의 배열 인덱스를 증가시켜서 다음 값을 비교해준다.
+//같은 값이 있으면 새로운 배열에 해당 수를 저장한다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+void Sort(int* SortArray, int Size)
+{
+	int Temp;
+	int j;
+
+	for (int i = 1; i < Size; i++)
+	{
+		Temp = SortArray[i];
+
+		for (j = i - 1; j >= 0; j--)
+		{
+			if (SortArray[j] > Temp)
+			{
+				SortArray[j + 1] = SortArray[j];
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		SortArray[j + 1] = Temp;
+	}
+}
+
+void Question40()
+{
+	int AArraySize;
+	int* AArray;
+
+	int BArraySize;
+	int* BArray;
+
+	int IntersectionArraySize;
+	
+	scanf_s("%d", &AArraySize);
+
+	AArray = (int*)malloc(sizeof(int)*AArraySize);
+
+	for (int i = 0; i < AArraySize; i++)
+	{
+		scanf_s("%d", &AArray[i]);
+	}
+
+	scanf_s("%d", &BArraySize);
+
+	BArray = (int*)malloc(sizeof(int)*BArraySize);
+
+	for (int i = 0; i < BArraySize; i++)
+	{
+		scanf_s("%d", &BArray[i]);
+	}
+
+	//오름차순 정렬
+	Sort(AArray, AArraySize);
+	Sort(BArray, BArraySize);
+
+	if (AArraySize > BArraySize)
+	{
+		IntersectionArraySize = BArraySize;
+	}
+	else if(BArraySize > AArraySize)
+	{
+		IntersectionArraySize = AArraySize;
+	}
+	else
+	{
+		IntersectionArraySize = BArraySize;
+	}
+
+	//새로운 배열 할당
+	int* SortArray = (int*)malloc(sizeof(int)*IntersectionArraySize);
+
+	int AArrayCheck = 0;
+	int BArrayCheck = 0;
+	int SortArrayIndex = 0;
+
+	//두배열을 비교 검사해준다.
+	while (AArraySize > AArrayCheck
+		&& BArraySize > BArrayCheck)
+	{
+		//두배열의 값이 같은것이 발견되면
+		//값을 새로운 배열에 넣고 두 배열 인덱스를 증가시켜준다.
+		if (AArray[AArrayCheck] == BArray[BArrayCheck])
+		{
+			SortArray[SortArrayIndex] = AArray[AArrayCheck];
+			AArrayCheck++;
+			BArrayCheck++;
+
+			SortArrayIndex++;
+		}
+		//다른값이 발견됏는데 값이 큰 배열이 발견되면 작은쪽 배열의 인덱스를 증가시켜준다.
+		//정렬되어있는 상태이니까 작은값은 다른 배열에 없는것이므로
+		else if(AArray[AArrayCheck] > BArray[BArrayCheck])
+		{
+			BArrayCheck++;
+		}
+		else
+		{
+			AArrayCheck++;
+		}
+	}
+
+	for (int i = 0; i < SortArrayIndex; i++)
+	{
+		printf("%d ", SortArray[i]);
+	}
 }
 
 int main()
 {
-	Question39();
+	Question40();
 
 	return 0;
 }

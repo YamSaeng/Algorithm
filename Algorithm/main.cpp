@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
 
 //---------------------------------------------------------------------------
 //1부터 N까지 M의 배수 합
@@ -100,7 +104,7 @@ void Question4()
 
 	for (int i = 0; i < Count; i++)
 	{
-		scanf_s("%d", &Number);		
+		scanf_s("%d", &Number);
 		if (Number > Max)
 		{
 			Max = Number;
@@ -111,9 +115,9 @@ void Question4()
 			Min = Number;
 		}
 	}
-		
+
 	int Answer = Max - Min;
-	printf("%d", Answer);	
+	printf("%d", Answer);
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -571,7 +575,7 @@ void Question13()
 int Reverse(int X)
 {
 	int ReverseNumber = 0;
-	int Remainder;	
+	int Remainder;
 
 	while (X > 0)
 	{
@@ -589,7 +593,7 @@ bool IsPrime(int X)
 		if (X % i == 0)
 		{
 			return false;
-		}		
+		}
 	}
 
 	return true;
@@ -604,7 +608,7 @@ void Question14()
 
 	for (int i = 0; i < Number; i++)
 	{
-		scanf_s("%d",&PrimeCheckNumber);
+		scanf_s("%d", &PrimeCheckNumber);
 
 		int ReverseNumber = Reverse(PrimeCheckNumber);
 		IsPrimeNumber = IsPrime(ReverseNumber);
@@ -1178,10 +1182,10 @@ void Question24()
 		CurrentNumber = CheckNumber;
 
 		Index = abs(CurrentNumber - PreviousNumber);
-		
+
 		if (Index >= 1 && Index <= Number - 1 && CheckArray[Index] == 0)
 		{
-			CheckArray[Index]++;			
+			CheckArray[Index]++;
 		}
 		else
 		{
@@ -1218,12 +1222,12 @@ void Question25()
 	int CheckNumber;
 	int* RankArray;
 	int* CheckArray;
-	
+
 	scanf_s("%d", &Number);
 
 	RankArray = (int*)malloc(sizeof(int)*Number);
 	CheckArray = (int*)malloc(sizeof(int)*Number);
-	
+
 	for (int i = 0; i < Number; i++)
 	{
 		scanf_s("%d", &CheckNumber);
@@ -1236,7 +1240,7 @@ void Question25()
 		for (int j = 0; j < Number; j++)
 		{
 			//자기자신은 제외
-			if (i != j && CheckArray[i] >= CheckArray[j] )
+			if (i != j && CheckArray[i] >= CheckArray[j])
 			{
 				RankArray[i]--;
 			}
@@ -1246,7 +1250,8 @@ void Question25()
 	for (int i = 0; i < Number; i++)
 	{
 		printf("%d ", RankArray[i]);
-;	}
+		;
+	}
 
 	free(RankArray);
 	free(CheckArray);
@@ -1325,7 +1330,7 @@ void Question27()
 	int Factor;
 	int* PrimeCheck;
 	int j;
-	
+
 	scanf_s("%d", &Number);
 
 	PrimeCheck = (int*)malloc(sizeof(int) * (Number + 1));
@@ -1350,7 +1355,7 @@ void Question27()
 			else
 			{
 				j++;
-			}		
+			}
 
 			//나눠지는 수가 1이 되면 나가서 다음수를 받아온다.
 			if (Factor == 1)
@@ -1412,7 +1417,7 @@ void Question28()
 			if (Factor % j == 0)
 			{
 				Factor = Factor / j;
-				
+
 				if (j == 2)
 				{
 					TwoCount++;
@@ -1421,7 +1426,7 @@ void Question28()
 				{
 					FiveCount++;
 				}
-			}		
+			}
 			else
 			{
 				j++;
@@ -1466,12 +1471,12 @@ void Question29()
 	scanf_s("%d", &Number);
 
 	for (int i = 1; i <= Number; i++)
-	{	
+	{
 		j = i;
 		while (j > 0)
 		{
 			if (j % 10 == 3)
-			{				
+			{
 				ThreeCount++;
 			}
 
@@ -1531,7 +1536,7 @@ void Question31()
 			H = H * 10 + (Chemistry[i] - 48);
 		}
 	}
-	
+
 	Sum = (C * 12) + (H * 1);
 
 	printf("%d", Sum);
@@ -1630,7 +1635,7 @@ void Question33()
 		Array[Index] = Temp;
 	}
 
-	
+
 	for (int i = 1; i < Number; i++)
 	{
 		if (Array[i - 1] != Array[i])
@@ -1709,7 +1714,7 @@ void Question35()
 	int* Array;
 	int ArrayNumber;
 	int Temp;
-	
+
 	scanf_s("%d", &Number);
 
 	Array = (int*)malloc(sizeof(int)*Number);
@@ -1724,7 +1729,7 @@ void Question35()
 	{
 		for (int j = 0; j < Number - i - 1; j++)
 		{
-			if (Array[j] > 0 &&  Array[j + 1] < 0)
+			if (Array[j] > 0 && Array[j + 1] < 0)
 			{
 				Temp = Array[j];
 				Array[j] = Array[j + 1];
@@ -1732,13 +1737,13 @@ void Question35()
 			}
 		}
 	}
-	
+
 	for (int i = 0; i < Number; i++)
 	{
 		printf("%d ", Array[i]);
 	}
 
-	free(Array);	
+	free(Array);
 }
 
 
@@ -1853,7 +1858,7 @@ void Question37()
 			for (int j = FindIndex; j > 0; j--)
 			{
 				Array[j] = Array[j - 1];
-			}			
+			}
 		}
 		//캐시 미스 낫을때 새로운 작업이 배열에 없음
 		else
@@ -1885,10 +1890,10 @@ void Question39()
 {
 	int* AArray;
 	int AArraySize;
-		
+
 	int* BArray;
 	int BArraySize;
-	
+
 	int AArrayCheck = 0;
 	int BArrayCheck = 0;
 
@@ -1912,7 +1917,7 @@ void Question39()
 	{
 		scanf_s("%d", &BArray[i]);
 	}
-	
+
 	SortArray = (int*)malloc(sizeof(int)*(AArraySize + BArraySize));
 
 	//A 배열과 B 배열 서로 검사해서 새로운 배열에 할당
@@ -1924,9 +1929,9 @@ void Question39()
 			SortArray[SortArrayIndex] = BArray[BArrayCheck];
 			BArrayCheck++;
 		}
-		else if(BArray[BArrayCheck] > AArray[AArrayCheck])
+		else if (BArray[BArrayCheck] > AArray[AArrayCheck])
 		{
-			SortArray[SortArrayIndex] = AArray[AArrayCheck];			
+			SortArray[SortArrayIndex] = AArray[AArrayCheck];
 			AArrayCheck++;
 		}
 		else
@@ -1936,7 +1941,7 @@ void Question39()
 		}
 
 		SortArrayIndex++;
-	}	
+	}
 
 	//A배열 남은 부분 새로운 배열에 할당
 	while (AArraySize > AArrayCheck)
@@ -1960,7 +1965,7 @@ void Question39()
 	}
 
 	free(AArray);
-	free(BArray);	
+	free(BArray);
 	free(SortArray);
 }
 
@@ -2013,7 +2018,7 @@ void Question40()
 	int* BArray;
 
 	int IntersectionArraySize;
-	
+
 	scanf_s("%d", &AArraySize);
 
 	AArray = (int*)malloc(sizeof(int)*AArraySize);
@@ -2040,7 +2045,7 @@ void Question40()
 	{
 		IntersectionArraySize = BArraySize;
 	}
-	else if(BArraySize > AArraySize)
+	else if (BArraySize > AArraySize)
 	{
 		IntersectionArraySize = AArraySize;
 	}
@@ -2072,7 +2077,7 @@ void Question40()
 		}
 		//다른값이 발견됏는데 값이 큰 배열이 발견되면 작은쪽 배열의 인덱스를 증가시켜준다.
 		//정렬되어있는 상태이니까 작은값은 다른 배열에 없는것이므로
-		else if(AArray[AArrayCheck] > BArray[BArrayCheck])
+		else if (AArray[AArrayCheck] > BArray[BArrayCheck])
 		{
 			BArrayCheck++;
 		}
@@ -2088,9 +2093,121 @@ void Question40()
 	}
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//연속된 자연수의 합
+//입력으로 양의 정수 N이 입력되면 2개 이상의 연속된 자연수의 합으로 정수 N을 표현하는 방법의 가짓수를 출력하는 프로그램을 작성하세요.
+//만약 N = 15 이면 7 + 8 = 15, 4 + 5 + 6 = 151, 1 + 2 + 3 + 4 + 5 = 15 와 같이 총 3가지의 경우가 존재 한다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//나의 풀이 : 입력받은 양의 정수 N에 대해 연속된 자연수의 합으로 N을 표현하는 방법이니까 7,8,9를 직접 알고리즘 대로 풀어 보았다.
+//7 2개 12 23 34 45    3개 123 234
+//8 2개 12 23 34 45    3개 123 234
+//9 2개 12 23 34 45 56 3개 123 234 345
+//7의 경우 2개 (3,4) 3개 X
+//8의 경우 2개 X 3개 X
+//9의 경우 2개 45 3개 234가 답인데, 이를 통해 규칙을 확인했다.
+//우선 2개 3개 4개 ... 연속적인 수의 합을 반복하면서 입력받은 양의 정수와 같은 값이 있는지 확인하고 있다면 해당수를 출력해준다.
+//추가적으로 2개 3개 4개 .. 반복할때 각각의 합이 입력받은 양수보다 값이 크다면 다음 값들은 검사할 필요가 없고 만약 다음 개수로 넘어갈때 첫번째 검사에서 
+//입력받은 양수보다 크다면 검사를 끝낼 수 있도록한다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+void Question41()
+{
+	int Number;
+	int Sum = 0;
+	int Count = 0;
+	int SumCount = 0;
+	int PrintSumData;
+	int SumData;
+	int SumCheck = 0;
+	int Check = 0;
+	bool IsPrint;
+	bool Next;
+
+	scanf_s("%d", &Number);
+
+	//2개 부터 시작하니까 i를 2부터
+	for (int i = 2; ; i++)
+	{
+		Check++;
+		IsPrint = false;
+		Next = false;
+		PrintSumData = i - 1;
+
+		//첫번째 반복문 자연수의 합이 입력받은 양수보다 커진다면 탈출한다.
+		while (1)
+		{
+			//몇개를 더할건지 정해줌
+			SumCount = i;
+			PrintSumData++;
+			SumData = PrintSumData;
+			SumCheck = 0;
+			Sum = 0;
+
+			//두번째 반복문 정해준 갯수에 따라 자연수를 더해준다.
+			while (SumCount > 0)
+			{
+				//Sum에 SumData를 더해줌 
+				//2개 라면 (2,1) (3,2) (4,3) ... 이런식으로 더하면서 Number와 같은값을 찾아줌
+				Sum += SumData;
+
+				//Sum이 입력받은 양수보다 커지면 첫번째 반복문 탈출
+				if (Sum > Number)
+				{
+					Next = true;
+					break;
+				}
+								
+				//연속적인 자연수 n개를 더하면 더하는 횟수는 n-1번 조건을 확인해주는 구문
+				if (Sum == Number && i - 1 == SumCheck)
+				{
+					Count++;
+					IsPrint = true;
+					break;
+				}
+
+				SumCheck++;
+				SumData--;
+				SumCount--;
+			}
+
+			//Sum이 입력받은 양수보다 커졋다는것을 확인
+			if (Next)
+			{
+				break;
+			}
+
+			//Sum과 Number가 같으면 이부분으로 들어와서 해당 수를 출력해줌
+			if (IsPrint)
+			{
+				int PrintData = PrintSumData;
+
+				for (int j = i; j > 0; j--)
+				{
+					printf("%d ", PrintData);
+					PrintData--;
+				}
+
+				printf("= %d\n", Number);
+			}
+
+			//다음 개수로 넘어갈때 Check를 하나씩 증가시켜줌
+			Check++;
+		}
+
+		//다음 개수 판단하는데 첫번째에서 정수의 합이 입력받은 양수보다 크다면 검사를 끝내준다.
+		if (Check == 1 && Next == true)
+		{
+			break;
+		}
+
+		Check = 0;
+	}
+
+	printf("%d", Count);
+}
+
 int main()
 {
-	Question40();
+	Question41();
 
 	return 0;
 }

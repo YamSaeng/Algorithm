@@ -2969,9 +2969,84 @@ void Question51()
 	printf("%d\n", Max);
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//Ugly Numbers
+//어떤 수를 소인수분해 했을 때 그 소인수가 2 또는 3 또는 5로만 이루어진 수를 Ugly Number라고 부릅니다.
+//Ugly Number를 차례대로 적어보면 1,2,3,4,5,6,8,9,10,12,15, ... 입니다.
+//숫자 1은 Ugly Number의 첫 번째 수로 합니다. 자연수 N이 주어지면 Ugly Number를 차례로 적을 때
+//N번째 Ugly Number를 구하는 프로그램을 작성하세요.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//나의 풀이 : Number만큼의 배열을 준비한 후에 첫번째 자리에 1을 넣어준다.
+//그 후 2, 3, 5 만큼 움직여주는 인덱스를 준비해주고,
+//한번 움직일때 기존 인덱스 값에서 2 3 5를 곱한 값중 가장 작은 값을 UglyNumber라고 판단하고 배열에 넣어준다.
+//만약 같은 값이 나오면 같은값중 하나를 넣어주고 인덱스는 같은값 나온 항목 모두를 1씩 증가시켜준다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+void Question52()
+{
+	int Number;
+	int* UglyNumbers;
+
+	scanf_s("%d", &Number);
+
+	UglyNumbers = (int*)malloc(sizeof(int)*(Number+1));
+	memset(UglyNumbers, 0, sizeof(int)*(Number+1));
+
+	int TwoPoint = 1;
+	int ThreePoint = 1;
+	int FivePoint = 1;
+	int Min = 99999999;
+
+	//1 위치에 1넣어줌
+	UglyNumbers[1] = 1;
+
+	//2 위치 부터 시작
+	for (int i = 2; i <= Number; i++)
+	{
+		//2를 곱한값이 3보다 작으면 2를 곱한값을 넣어주고 같거나 크다면 3곱한값을 넣어준다.
+		if (UglyNumbers[TwoPoint] * 2 < UglyNumbers[ThreePoint] * 3)
+		{
+			Min = UglyNumbers[TwoPoint] * 2;
+		}
+		else
+		{
+			Min = UglyNumbers[ThreePoint] * 3;
+		}
+
+		//위에서 정해준 값이 5를 곱해준 값보다 크다면 5를 곱해준 값을 넣어준다.
+		if (UglyNumbers[FivePoint] * 5 < Min)
+		{
+			Min = UglyNumbers[FivePoint] * 5;
+		}
+
+		//2 인덱스 값 증가
+		if (UglyNumbers[TwoPoint] * 2 == Min)
+		{
+			TwoPoint++;
+		}
+
+		//3 인덱스 값 증가
+		if (UglyNumbers[ThreePoint] * 3 == Min)
+		{
+			ThreePoint++;
+		}
+
+		//5 인덱스 값 증가
+		if (UglyNumbers[FivePoint] * 5 == Min)
+		{
+			FivePoint++;
+		}
+
+		UglyNumbers[i] = Min;
+	}
+
+	printf("%d", UglyNumbers[Number]);
+
+	free(UglyNumbers);
+}
+
 int main()
 {
-	Question51();
+	Question52();
 
 	return 0;
 }

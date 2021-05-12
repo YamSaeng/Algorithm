@@ -3344,7 +3344,7 @@ void Question60()
 		scanf_s("%d", &Array[i]);
 		TotalSum += Array[i];
 	}
-
+	
 	Question60DFS(1, 0);
 
 	if (Flag)

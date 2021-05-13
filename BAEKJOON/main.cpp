@@ -350,8 +350,220 @@ void Question2609()
 	printf("%d\n%d", Max, Min);
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//N번째 큰 수
+//배열 A가 주어졌을 때, N번째 큰 값을 출력하는 프로그램을 작성하시오.
+//배열 A의 크기는 항상 10이고, 자연수만 가지고 있다.
+//N은 항상 3이다.
+//입력
+//첫째 줄에 테스트 케이스의 개수 T(1<= T <=1000)가 주어진다.
+//각 테스트 케이스는 한 줄로 이루어져있고, 배열 A의 원소 10개가 공백으로 구분되어 주어진다. 
+//이 원소는 1보다 크거나 같고, 1000보다 작거나 같은 자연수이다.
+//출력
+//각 테스트 케이스에 대해 한 줄에 하나씩 배열 A에서 3번째 큰 값을 출력한다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+void Question2693()
+{
+	int TestNumber;
+	int Array[10];
+
+	scanf_s("%d", &TestNumber);
+
+	int AnswerPrint = TestNumber;
+
+	int* AnswerArray = (int*)malloc(sizeof(int)*TestNumber);
+	int AnswerCount = 0;
+
+	//TestNumber만큼 반복하면서
+	for (; TestNumber > 0; TestNumber--)
+	{
+		//수를 받는다.
+		for (int i = 0; i < 10; i++)
+		{
+			scanf_s("%d", &Array[i]);
+		}		
+
+		//오름 차순으로 정렬하고
+		sort(Array, Array + 10);
+
+		//3번째로 큰수를 저장해둔다.
+		AnswerArray[AnswerCount] = Array[7];
+		AnswerCount++;
+	}
+
+	//저장해둔 수를 출력해준다.
+	for (int i = 0; i < AnswerPrint; i++)
+	{
+		printf("%d\n", AnswerArray[i]);
+	}
+
+	free(AnswerArray);
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//소수 찾기
+//주어진 수 n개 중에서 소수가 몇 개인지 찾아서 출력하는 프로그램을 작성하시오.
+//입력
+//첫 줄에 수의 개수 N이 주어진다.
+//N은 100이하이다.
+//다음으로 N개의 수가 주어지는데 수는 1000 이하의 자연수이다.
+//출력
+//주어진 수들 중 소수의 개수를 출력한다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+void Question1978()
+{
+	int Number;
+	int CheckNumber;
+	bool IsPrimeNumber; //소수 인지 판단
+	int PrimeNumberCount = 0;
+
+	scanf_s("%d", &Number);
+
+	for (int i = 0; i < Number; i++)
+	{
+		IsPrimeNumber = true;
+
+		scanf_s("%d", &CheckNumber);
+
+		for (int j = 2; j < CheckNumber; j++)
+		{
+			//1과 자기자신을 제외하고 0으로 나누어떨어지면 소수 아니라고 판단
+			if (CheckNumber % j == 0)
+			{
+				IsPrimeNumber = false;
+				break;
+			}
+		}
+
+		//1 제외
+		if (IsPrimeNumber && CheckNumber != 1)
+		{
+			PrimeNumberCount++;
+		}
+	}	
+
+	printf("%d", PrimeNumberCount);
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//쉽게 푸는 문제
+//동호는 내년에 초등학교를 입학한다.
+//그래서 동호 어머니는 수학 선행 학습을 위해 쉽게 푸는 문제를 동호에게 주었다.
+//이 문제는 다음과 같다.
+//1을 한 번, 2를 두 번, 3을 세 번, 이런 식으로 1 2 2 3 3 3 4 4 4 4 5 ... 이러한 수열을 만들고 어느 일정한 구간을 주면 그 구간의 합을 구하는 것이다.
+//하지만 동호는 현재 더 어려운 문제를 푸느라 바쁘기에 우리가 동호를 도와주자.
+//입력
+//첫째 줄에 구간의 시작과 끝을 나타내는 정수 A, B(1 <= A <= B <= 1000)가 주어진다.
+//즉, 수열에서 A번째 숫자부터 B번째 숫자까지 합을 구하면 된다.
+//출력
+//첫 줄에 구간에 속하는 숫자의 합을 출력한다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+void Question1292()
+{
+	int StartNumber;
+	int EndNumber;
+	int Input = 0;
+	int Sum = 0;
+
+	//배열 시작 끝 인덱스 입력 받음
+	scanf_s("%d %d", &StartNumber, &EndNumber);
+
+	//동적으로 배열 잡아줌
+	int* Array = (int*)malloc(sizeof(int)*EndNumber);
+	memset(Array, 0, sizeof(int)*EndNumber);
+
+	for (int i = 1; EndNumber > Input; i++)
+	{
+		//숫자 넣을때 몇번 넣을건지 
+		int InputNumber = i;
+
+		while (InputNumber > 0)
+		{
+			Array[Input] = i;
+			InputNumber--;
+			Input++;
+
+			if (Input >= EndNumber)
+			{
+				break;
+			}
+		}
+	}
+
+	for (int i = StartNumber - 1; i < EndNumber; i++)
+	{
+		Sum += Array[i];
+	}
+
+	printf("%d", Sum);
+
+	free(Array);
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//소수
+//자연수 M과 N이 주어질 때 M이상 N이하의 자연수 중 소수인 것을 모두 골라 이들 소수의 합과 최솟값을 찾는 프로그램을 작성하시오.
+//예를 들어 M=60, N=100인 경우 60이상 100이하의 자연수 중 소수는 61, 67, 71, 73, 79, 83, 89, 97 총 8개가 있으므로,
+//이들 소수의 합은 620이고, 최솟값은 61이 된다.
+//입력
+//입력의 첫째 줄에 M이, 둘째 줄에 N이 주어진다.
+//M과 N은 10000이하의 자연수이며, M은 N보다 작거나 같다.
+//출력
+//M이상 N이하의 자연수 중 소수인 것을 모두 찾아 첫째 줄에 그 합을, 둘째 줄에 그 중 최솟값을 출력한다.
+//단, M이상 N이하의 자연수 중 소수가 없을 경우는 첫째 줄에 -1을 출력한다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+void Question2581()
+{
+	int MNumber;
+	int NNumber;
+	int PrimeNumberSum = 0;
+	int MinPrimeNumber = 999999;
+	bool IsPrimeNumber;
+	bool IsPrimeCheck = false;
+
+	scanf_s("%d %d", &MNumber,&NNumber);
+
+	for (int i = MNumber; i <= NNumber; i++)
+	{
+		IsPrimeNumber = true;
+
+		
+		//소수 판단
+		for (int j = 2; j < i; j++)
+		{
+			if (i % j == 0)
+			{
+				IsPrimeNumber = false;
+			}
+		}
+
+		if (IsPrimeNumber == true)
+		{
+			IsPrimeCheck = true;
+
+			//최소값 저장
+			if (MinPrimeNumber > i)
+			{
+				MinPrimeNumber = i;
+			}
+
+			//소수 합 구함
+			PrimeNumberSum += i;
+		}
+	}
+
+	if (IsPrimeCheck)
+	{
+		printf("%d\n%d", PrimeNumberSum, MinPrimeNumber);
+	}
+	else
+	{
+		printf("-1");
+	}	
+}
+
 int main()
 {
-	Question2609();
+	Question2581();
 	return 0;
 }

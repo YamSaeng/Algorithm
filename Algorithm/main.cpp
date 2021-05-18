@@ -2156,7 +2156,7 @@ void Question41()
 					Next = true;
 					break;
 				}
-								
+
 				//연속적인 자연수 n개를 더하면 더하는 횟수는 n-1번 조건을 확인해주는 구문
 				if (Sum == Number && i - 1 == SumCheck)
 				{
@@ -2220,7 +2220,7 @@ void Question42()
 {
 	int	Number;
 	int Key;
-	
+
 	scanf_s("%d", &Number);
 	scanf_s("%d", &Key);
 
@@ -2230,11 +2230,11 @@ void Question42()
 	{
 		scanf_s("%d", &Array[i]);
 	}
-	
+
 	//정렬
 	sort(Array.begin(), Array.end());
 
-	int Left = 0 ;
+	int Left = 0;
 	int Right = Number - 1;
 	int Middle;
 
@@ -2249,7 +2249,7 @@ void Question42()
 			Right = Middle - 1;
 		}
 		//중간값이 찾고자 하는 값보다 작다면 왼쪽을 땡겨온다.
-		else if(Array[Middle] < Key)
+		else if (Array[Middle] < Key)
 		{
 			Left = Middle + 1;
 		}
@@ -2298,7 +2298,7 @@ void Question43()
 	int Right;
 	int SumLength = 0;
 	int MinCapacity;
-	
+
 	scanf_s("%d", &Number);
 	scanf_s("%d", &DVDNumber);
 
@@ -2309,9 +2309,9 @@ void Question43()
 		scanf_s("%d", &Lengths[i]);
 		SumLength += Lengths[i];
 	}
-	
+
 	Left = 0;
-	Right = SumLength;	
+	Right = SumLength;
 
 	int i = 0;
 	int Sum = 0;
@@ -2320,13 +2320,13 @@ void Question43()
 
 	//Right가 Left를 넘어서면 이분검색 끝이라고 판단
 	while (Right >= Left)
-	{		
+	{
 		DVDCount = 1;
 		Sum = 0;
 
 		//중간값 구해줌
 		Middle = (Left + Right) / 2;
-		
+
 		for (int i = 0; i < Number; i++)
 		{
 			//Sum을 더해가는데 Sum과 다음 Sum에 더해줄 길이 값을 더햇는데 Middle값을 넘어서면
@@ -2339,7 +2339,7 @@ void Question43()
 			else
 			{
 				Sum += Lengths[i];
-			}			
+			}
 		}
 
 		//DVDCount가 DVDNumber보다 크거나 같으면 오른쪽을 당겨서 더 작은 값으로 판단해준다
@@ -2355,7 +2355,7 @@ void Question43()
 		}
 	}
 
-	printf("%d", MinCapacity);	
+	printf("%d", MinCapacity);
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2405,7 +2405,7 @@ void Question44()
 	{
 		scanf_s("%d", &Indexs[i]);
 	}
-	
+
 	//정렬
 	sort(Indexs, Indexs + Number);
 
@@ -2492,13 +2492,13 @@ void Question45()
 	//배열의 인덱스 값을 왕자 번호로 생각해야하니까 +1 만큼 더 크게 만들어주고 0으로 초기화해준다.
 	int* Princes = (int*)malloc(sizeof(int) * (Number + 1));
 	memset(Princes, 0, sizeof(int) * (Number + 1));
-	
+
 	Remain = Number;
 
 	while (1)
 	{
 		MovingPosition++;
-		
+
 		//MovingPosition이 Number보다 크게 되면 MovingPosition을 1로 돌린다.
 		//처음에는 MovingPosition이 Number와 같으면 0으로 돌렷엇는데
 		//MovingPostion이 Number가 될때 기록해야 하는 부분이 MovingPostion이라면 기록을 못하고 빠지므로 > 으로 수정했다.
@@ -2517,14 +2517,14 @@ void Question45()
 				Count = 0;
 				Remain--;
 			}
-		}		
+		}
 
 		//남아 있는 왕자가 1이면 탈출한다.
 		if (Remain == 1)
 		{
 			break;
 		}
-	}	
+	}
 
 	for (int i = 1; i <= Number; i++)
 	{
@@ -2532,7 +2532,7 @@ void Question45()
 		{
 			printf("%d", i);
 			break;
-		}		
+		}
 	}
 
 	free(Princes);
@@ -2570,7 +2570,7 @@ void Question46()
 
 	scanf_s("%d", &Number);
 
-	Seconds = (int*)malloc(sizeof(int)*(Number+1));
+	Seconds = (int*)malloc(sizeof(int)*(Number + 1));
 	memset(Seconds, 0, sizeof(int)*(Number + 1));
 
 	//작업량 받아줌
@@ -2581,7 +2581,7 @@ void Question46()
 	}
 
 	scanf_s("%d", &BlackoutSecond);
-	
+
 	int MovingPosition = 0;
 
 	do
@@ -2591,13 +2591,13 @@ void Question46()
 		{
 			printf("-1");
 			break;
-		}	
+		}
 
 		while (1)
 		{
 			//1번 위치부터 시작 점차 증가 시켜줌
 			MovingPosition++;
-			
+
 			// 2번 규칙에 의해 마지막 작업이라면 앞으로 돌려준다.
 			if (MovingPosition > Number)
 			{
@@ -2609,9 +2609,9 @@ void Question46()
 			{
 				continue;
 			}
-			
+
 			// 1번 규칙에 의해1초씩 빼준다.
-			Seconds[MovingPosition]--;					
+			Seconds[MovingPosition]--;
 			Count++; //정전을 1초씩 카운트
 
 			//1초씩 카운트 하던것이 정전 값과 같다면
@@ -2634,12 +2634,12 @@ void Question46()
 						break;
 					}
 				}
-				Exit = true;				
+				Exit = true;
 				break;
 			}
 		}
-		
-	} while (!Exit);	
+
+	} while (!Exit);
 
 	printf("%d", MovingPosition);
 
@@ -2682,11 +2682,11 @@ void Question47()
 	for (int i = 0; i < (Number + 2); i++)
 	{
 		Mountain[i] = (int*)malloc(sizeof(int) * (Number + 2));
-		memset(Mountain[i], 0, sizeof(int) * (Number+2));		
+		memset(Mountain[i], 0, sizeof(int) * (Number + 2));
 	}
 
 	for (int i = 1; i < Number + 1; i++)
-	{		
+	{
 		for (int j = 1; j < Number + 1; j++)
 		{
 			scanf_s("%d", &Mountain[i][j]);
@@ -2706,7 +2706,7 @@ void Question47()
 			{
 				Check++;
 			}
-			
+
 			//왼쪽 검사
 			if (Mountain[y][x] > Mountain[y][x - 1])
 			{
@@ -2737,7 +2737,7 @@ void Question47()
 
 	for (int i = 0; i < (Number + 2); i++)
 	{
-		free(Mountain[i]);		
+		free(Mountain[i]);
 	}
 
 	free(Mountain);
@@ -2845,15 +2845,15 @@ void Question50()
 			scanf_s("%d", &Territory[i][j]);
 		}
 	}
-	
+
 	scanf_s("%d", &MyHeight);
 	scanf_s("%d", &MyWidth);
 
 	int Sum;
-	
+
 	//Height - MyHeight + 1 * Width - MyWidth + 1 만큼 반복하면서
 	for (int i = 0; i < Height - MyHeight + 1; i++)
-	{			
+	{
 		for (int j = 0; j < Width - MyWidth + 1; j++)
 		{
 			//입력받은 MyHeight MyWidth 구역에서 데이터를 더한다.
@@ -2930,17 +2930,17 @@ void Question51()
 	int Width;
 
 	scanf_s("%d %d", &Height, &Width);
-	
+
 	int i;
 	int j;
-	
+
 	//1,1부터 데이터를 넣어줌
 	for (i = 1; i <= Height; i++)
 	{
-		for (j = 1; j <= Width; j++) 
+		for (j = 1; j <= Width; j++)
 		{
 			//데이터가 입력되면 미리 가로 세로 구한 값을 넣어줌
-			scanf_s("%d", &Territory[i][j]);		
+			scanf_s("%d", &Territory[i][j]);
 			DynamicTerritory[i][j] = DynamicTerritory[i - 1][j] + DynamicTerritory[i][j - 1] - DynamicTerritory[i - 1][j - 1] + Territory[i][j];
 		}
 	}
@@ -2969,7 +2969,7 @@ void Question51()
 
 	printf("%d\n", Max);
 }
-	
+
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 //Ugly Numbers
 //어떤 수를 소인수분해 했을 때 그 소인수가 2 또는 3 또는 5로만 이루어진 수를 Ugly Number라고 부릅니다.
@@ -2989,8 +2989,8 @@ void Question52()
 
 	scanf_s("%d", &Number);
 
-	UglyNumbers = (int*)malloc(sizeof(int)*(Number+1));
-	memset(UglyNumbers, 0, sizeof(int)*(Number+1));
+	UglyNumbers = (int*)malloc(sizeof(int)*(Number + 1));
+	memset(UglyNumbers, 0, sizeof(int)*(Number + 1));
 
 	int TwoPoint = 1;
 	int ThreePoint = 1;
@@ -3074,11 +3074,11 @@ void Question54()
 			if (Stack.empty())
 			{
 				printf("NO\n");
-				return;				
+				return;
 			}
 			else
 			{
-				Stack.pop();	
+				Stack.pop();
 			}
 		}
 	}
@@ -3086,7 +3086,7 @@ void Question54()
 	if (Stack.empty())
 	{
 		printf("YES\n");
-	}	
+	}
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -3138,8 +3138,8 @@ void Question55()
 				PushPopCount--;
 				Stack.pop();
 				Top++;
-			}			
-		}		
+			}
+		}
 	}
 
 	if (PushPopCount != 0)
@@ -3178,7 +3178,7 @@ void Recur(int Number)
 void Question56()
 {
 	int Number;
-	
+
 	scanf_s("%d", &Number);
 
 	Recur(Number);
@@ -3202,7 +3202,7 @@ void BinaryRecur(int Number)
 	{
 		return;
 	}
-		
+
 	BinaryRecur(Number / 2);
 	printf("%d", Number % 2);
 }
@@ -3262,7 +3262,7 @@ int Depth;
 int Subset[100];
 
 void DFS(int Number)
-{	
+{
 	//입력받은 수가 최대 깊이 넘어가면 배열에 기록해둔 데이터를 출력해준다.
 	if (Number == Depth + 1)
 	{
@@ -3283,7 +3283,7 @@ void DFS(int Number)
 		//들어오는 수가 부분집합에 해당하지 않는다고 판단
 		Subset[Number] = 0;
 		DFS(Number + 1);
-	}	
+	}
 }
 
 void Question59()
@@ -3336,7 +3336,7 @@ void Question60DFS(int ArrayNumber, int Sum)
 }
 
 void Question60()
-{	
+{
 	scanf_s("%d", &Number);
 
 	for (int i = 1; i <= Number; i++)
@@ -3344,7 +3344,7 @@ void Question60()
 		scanf_s("%d", &Array[i]);
 		TotalSum += Array[i];
 	}
-	
+
 	Question60DFS(1, 0);
 
 	if (Flag)
@@ -3357,9 +3357,109 @@ void Question60()
 	}
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//병합정렬
+//N개의 숫자가 입력되면 오름차순으로 정렬하여 출력하는 프로그램을 작성하세요.
+//정렬하는 방법은 병합정렬입니다.
+//입력
+//첫 번째 줄에 자연수 N(1<=N<=100)이 주어집니다.
+//두 번째 줄에 N개의 자연수가 공백을 사이에 두고 입력됩니다.
+//각 자연수는 정수형 범위 안에 있습니다.
+//출력
+//오름차순으로 정렬된 수열을 출력합니다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+void Divide(int* Array, int* SumArray, int LeftIndex, int RightIndex)
+{
+	int Middle;
+
+	if (RightIndex > LeftIndex)
+	{
+		Middle = (RightIndex + LeftIndex) / 2;
+
+		Divide(Array, SumArray, LeftIndex, Middle);
+		Divide(Array, SumArray, Middle + 1, RightIndex);
+
+		int AArayIndex;
+		int BArrayIndex;
+		int SumArrayIndex;
+
+		AArayIndex = LeftIndex;
+		BArrayIndex = Middle + 1;
+		SumArrayIndex = LeftIndex;
+
+		//노드 끝에 도착하면 여기서부터 분리한 배열을 기준으로 오름차순 정렬해준다.
+		//처음엔 1 8 -> 1 4 -> 1 2 -> 3 4 -> 5 8 -> 5 6 -> 7 8 -> 1 8
+		//1 2 에서 정렬 -> 3 4 에서 정렬 -> 1 4 에서 정렬
+		//5 6 에서 정렬 -> 7 8 에서 정렬 -> 5 8 에서 정렬
+		//1 8 에서 정렬	
+
+		//왼쪽 배열과 오른쪽 배열 값 비교해서 작은 값부터 앞에 쓰기
+		while (Middle >= AArayIndex && RightIndex >= BArrayIndex)
+		{
+			if (Array[BArrayIndex] > Array[AArayIndex])
+			{
+				SumArray[SumArrayIndex] = Array[AArayIndex];
+				AArayIndex++;
+			}
+			else
+			{
+				SumArray[SumArrayIndex] = Array[BArrayIndex];
+				BArrayIndex++;
+			}
+
+			SumArrayIndex++;
+		}
+
+		//나눠준 배열 중 왼쪽 부분 남은거 옮겨주기
+		while (Middle >= AArayIndex)
+		{
+			SumArray[SumArrayIndex] = Array[AArayIndex];
+			AArayIndex++;
+			SumArrayIndex++;
+		}
+
+		//나눠준 배열 중 오른쪽 부분 남은거 옮겨주기
+		while (RightIndex >= BArrayIndex)
+		{
+			SumArray[SumArrayIndex] = Array[BArrayIndex];
+			BArrayIndex++;
+			SumArrayIndex++;
+		}
+
+		//기존 배열에 정렬한 데이터 쓰기
+		for (int i = LeftIndex; i <= RightIndex; i++)
+		{
+			Array[i] = SumArray[i];
+		}
+	}
+}
+
+void Question61()
+{
+	int Number;
+	int* Array;
+	int* SumArray;
+
+	scanf_s("%d", &Number);
+
+	Array = (int*)malloc(sizeof(int) * (Number + 1));
+	SumArray = (int*)malloc(sizeof(int) * (Number + 1));
+
+	for (int i = 1; i < Number + 1; i++)
+	{
+		scanf_s("%d", &Array[i]);
+	}
+
+	Divide(Array, SumArray, 1, Number);
+
+	for (int i = 1; i < Number + 1; i++)
+	{
+		printf("%d ", Array[i]);
+	}
+}
+
 int main()
 {
-	Question60();  
-
+	Question61();
 	return 0;
 }

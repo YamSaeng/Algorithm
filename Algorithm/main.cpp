@@ -3586,22 +3586,22 @@ void Question63()
 {
 	int NNumber;
 	int MNumber;
-	
+
 	int X;
 	int Y;
 
 	scanf_s("%d %d", &NNumber, &MNumber);
 
 	for (int i = 1; i <= MNumber; i++)
-	{		
+	{
 		scanf_s("%d %d", &X, &Y);
 
 		Question63Map[X][Y] = 1;
 	}
-	
+
 	Visited[1] = 1;
 
-	QuestionDFS63(1,NNumber);
+	QuestionDFS63(1, NNumber);
 
 	printf("%d", Question63Count);
 }
@@ -3660,7 +3660,7 @@ void Question64DFS(int X, int Y)
 				Question64Visited[XX][YY] = false;
 			}
 		}
-	}	
+	}
 }
 
 void Question64()
@@ -3675,13 +3675,94 @@ void Question64()
 
 	Question64Visited[1][1] = true;
 
-	Question64DFS(1,1);
+	Question64DFS(1, 1);
 
 	printf("%d", Question64Count);
 }
 
+//63번 문제 vector 이용해서 풀어보기
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//경로 탐색(DFS)
+//방향그래프가 주어지면 1번 정점에서 N번 정점으로 가는 모든 경로의 가지 수를 출력하는 프로그램을 작성하세요.
+//아래 그래프에서 1번 정점에서 5번 정점으로 가는 가지 수는
+//                   
+//1  <---------   2 ---------->    5
+//    --------->
+// ↓ ↘      ↙ ↑            ↗
+// ↓	↘	↙   ↑         ↗
+// ↓	  ↙	 ↑       ↗
+// ↓	↙  ↘	 ↑     ↗
+// ↓ ↙	  ↘ ↑   ↗
+// ↓	  		 ↑ ↗    
+// 3 --------->  4
+//
+//1 2 3 4 
+//1 2 5
+//1 3 4 2 5
+//1 3 4 5
+//1 4 2 5
+//1 4 5
+//입력
+//첫째 줄에는 정점의 수 N(1<=N<=20)과 간선의 수 M이 주어진다.
+//그 다음부터 M줄에 걸쳐 연결정보가 주어진다.
+//출력
+//총 가지수를 출력한다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+vector<bool> Question65Visited(30); // 방문햇는지 안햇는지 
+vector<int> Question65Map[30]; //연결 정보
+int Question65Count;
+
+void Question65DFS(int Now, int GoalNumber)
+{
+	if (Now == GoalNumber)
+	{
+		Question65Count++;
+	}
+	else
+	{
+		for (int i = 0; i < Question65Map[Now].size(); i++)
+		{
+			//Question65Map에 들어 잇는 것은 연결 정보가 담겨져 있는데
+			//Question65Map[1][0] -> 2  1에서 2로 갈수 있음을 의미
+			//Question65Visited[2] == 0 이면 2번으로 방문하지 않앗음을 의미하는데 이 값이 0이라면 진입
+			if (Question65Visited[Question65Map[Now][i]] == 0)
+			{
+				//방문했다고 알려주고
+				Question65Visited[Question65Map[Now][i]] = 1;
+				//해당 지역 방문
+				Question65DFS(Question65Map[Now][i], GoalNumber);
+				//분기점으로 돌아오면서 0으로 초기화해줌
+				Question65Visited[Question65Map[Now][i]] = 0;
+			}
+		}
+	}
+}
+
+void Question65()
+{
+	int NNumber;
+	int MNumber;
+	int X;
+	int Y;
+
+	scanf_s("%d %d", &NNumber, &MNumber);
+
+	for (int i = 1; i <= MNumber; i++)
+	{
+		scanf_s("%d %d", &X, &Y);
+		Question65Map[X].push_back(Y);
+	}
+
+	Question65Visited[1] = 1;
+	Question65DFS(1, NNumber);
+	printf("%d", Question65Count);
+}
+
 int main()
 {
-	Question64();
+	//vector<pair<int, int>> A;
+	//A.push_back({1,1});
+
+	Question65();
 	return 0;
 }

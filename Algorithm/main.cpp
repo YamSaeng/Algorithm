@@ -3,6 +3,7 @@
 #include <vector>
 #include <stack>
 #include <algorithm>
+#include <queue>
 
 using namespace std;
 
@@ -3758,11 +3759,171 @@ void Question65()
 	printf("%d", Question65Count);
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//최소비용(DFS : 인접행렬)
+//가중치 방향그래프가 주어지면 1번 정점에서 N번 정점으로 가는 최소비용을 출력하는 프로그램을 작성하세요.
+//       12              2
+//1  <---------   2 ------------> 5
+//    --------->
+// ↓ ↘10     ↙ ↑           ↗
+// ↓	↘	↙    ↑         ↗
+//6↓	  ↙	  ↑2      ↗
+// ↓	↙  ↘	  ↑     ↗  5
+// ↓ ↙2	  ↘  ↑   ↗
+// ↓	  		  ↑ ↗    
+// 3 --------->  4
+//       3
+//입력
+//첫째 줄에 정점의 수 N(1<=N<=20)과 간선의 수 M이 주어진다.
+//그 다음부터 M줄에 걸쳐 연결정보가 주어진다.
+//출력
+//총 가지수를 출력한다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+int Question66Map[20][20];
+bool Question66Visited[20];
+int Question66Min = 9999999;
+
+void Question66DFS(int Now, int GoalNumber, int Sum)
+{
+	//GoalNumber에 도착하면
+	if (Now == GoalNumber)
+	{
+		//최소값 판정
+		if (Sum < Question66Min)
+		{
+			Question66Min = Sum;
+		}
+	}
+	else
+	{
+		for (int i = 1; i <= GoalNumber; i++)
+		{
+			//안에 있는 내용이 0이아니고 (가중치를 의미) 방문 하지 않은 곳이라면
+			if (Question66Map[Now][i] != 0 && Question66Visited[i] == 0)
+			{
+				//방문햇다고 알려주고
+				Question66Visited[i] = 1;
+				//간선위치와 합 값을 넘겨준다.
+				Question66DFS(i, GoalNumber, Sum + Question66Map[Now][i]);
+				//다시 초기화해 준다.
+				Question66Visited[i] = 0;
+			}
+		}
+	}
+}
+
+void Question66()
+{
+	int NNumber;
+	int MNumber;
+
+	int X;
+	int Y;
+	int Z;
+
+	scanf_s("%d %d", &NNumber, &MNumber);
+
+	for (int i = 1; i <= MNumber; i++)
+	{
+		scanf_s("%d %d %d", &X, &Y, &Z);
+		Question66Map[X][Y] = Z;
+	}
+
+	Question66Visited[1] = 1;
+
+	Question66DFS(1, NNumber, 0);
+
+	printf("%d", Question66Min);
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//최소비용(DFS : 가중치 방향그래프 인접리스트)
+//가중치 방향그래프가 주어지면 1번 정점에서 N번 정점으로 가는 최소비용을 출력하는 프로그램을 작성하세요.
+//       12              2
+//1  <---------   2 ------------> 5
+//    --------->
+// ↓ ↘10     ↙ ↑           ↗
+// ↓	↘	↙    ↑         ↗
+//6↓	  ↙	  ↑2      ↗
+// ↓	↙  ↘	  ↑     ↗  5
+// ↓ ↙2	  ↘  ↑   ↗
+// ↓	  		  ↑ ↗    
+// 3 --------->  4
+//       3
+//입력
+//첫째 줄에는 정점의 수 N(1<=N<=20)과 간선의 수 M이 주어진다.
+//그 다음부터 M줄에 걸쳐 연결정보가 주어진다.
+//출력
+//최소비용을 출력합니다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+int Question67Visited[30]; // 방문햇는지 안햇는지 
+vector<pair<int, int>> Question67Map[30]; //연결 정보
+int Question67Min = 9999999;
+
+void Question67DFS(int Now, int GoalNumber, int Sum)
+{
+	//Goal정점 도착하면
+	if (Now == GoalNumber)
+	{
+		//최소값 판정
+		if (Sum < Question67Min)
+		{
+			Question67Min = Sum;
+		}
+	}
+	else
+	{
+		//도착하지 않았으면
+		for (int i = 0; i < Question67Map[Now].size(); i++)
+		{
+			//Question67Map에 들어 잇는 것은 연결 정보가 담겨져 있는데
+			//Question67Map[1][2] -> 12 1에서 2로 갈수 있음을 의미하고 12는 1에서 2로 갈때의 가중치
+			//예를들어 Question67Visited[Question67[1][2].first] == 0 이라는 질의는
+			//Question67Map[1][2].first는 2를 의미하고
+			//Question67Visited[2] == 0 이라고 해석 되고 2번으로 방문하지 않앗음을 의미한다
+			//방문하지 않을곳을 방문해야하니까 조건으로 Question67Visited[Question67Map[Now][i].first]를 달아준다.
+			if (Question67Visited[Question67Map[Now][i].first] == 0)
+			{
+				//해당 정점을 방문했다고 알려주고
+				Question67Visited[Question67Map[Now][i].first] = 1;
+				//second -> 가중치 값을 넘겨준다.
+				Question67DFS(Question67Map[Now][i].first, GoalNumber, Sum + Question67Map[Now][i].second);
+				//방문 햇던곳을 0으로 돌려준다.
+				Question67Visited[Question67Map[Now][i].first] = 0;
+			}
+		}
+	}
+}
+
+void Question67()
+{
+	int NNumber;
+	int MNumber;
+
+	int X;
+	int Y;
+	int Z;
+
+	scanf_s("%d %d", &NNumber, &MNumber);
+
+	for (int i = 0; i < MNumber; i++)
+	{
+		scanf_s("%d %d %d", &X, &Y, &Z);
+		Question67Map[X].push_back({ Y,Z });
+	}
+
+	Question67Visited[1] = 1;
+
+	Question67DFS(1, NNumber, 0);
+
+	printf("%d", Question67Min);
+}
+
 int main()
 {
 	//vector<pair<int, int>> A;
 	//A.push_back({1,1});
 
-	Question65();
+	Question67();
 	return 0;
 }

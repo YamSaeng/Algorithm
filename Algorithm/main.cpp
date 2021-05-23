@@ -3919,11 +3919,194 @@ void Question67()
 	printf("%d", Question67Min);
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//이진트리 넓이우선탐색(BFS)
+//아래 그림과 같은 이진트리를 넓이우선탐색해 보세요. 
+//간선 정보 6개를 입력받아 처리하세요.
+//					1
+//			2				3
+//		4		5		6		7
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+queue<int> Question68Que;
+vector<int> Question68Map[10];
+bool Question68Found[10];
+
+void Question68BFS(int Start)
+{
+	int X;
+	int Y;
+
+	for (int i = 0; i < 6; i++)
+	{
+		scanf_s("%d %d", &X, &Y);
+		Question68Map[X].push_back(Y);
+		Question68Map[Y].push_back(X);
+	}
+
+	Question68Que.push(1);
+	Question68Found[1] = 1;
+
+	while (Question68Que.size() > 0)
+	{
+		int Now = Question68Que.front();
+		Question68Que.pop();
+
+		printf("%d", Now);
+
+		for (int i = 0; i < Question68Map[Now].size(); i++)
+		{
+			if (Question68Found[Question68Map[Now][i]] == false)
+			{
+				Question68Found[Question68Map[Now][i]] = true;
+				Question68Que.push(Question68Map[Now][i]);
+			}
+		}
+	}
+}
+
+void Question68()
+{
+	Question68BFS(1);
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//그래프 최단거리(BFS)
+//다음 그래프에서 1번 정점에서 각 정점으로 가는 최소 이동 간선수를 출력하세요.
+//
+//       1  <--------  2  -------->  5
+//      ↓						     ↑
+//		↓						     ↑	
+//		↓		↘		    ↗↖     ↑
+//		↓						     ↑
+//		↓						     ↑
+//		 3  <--------  4  -------->  6
+//
+//입력
+//첫째 줄에는 정점의 수 N(1<=N<=20)과 감선의 수 M이 주어진다. 그 다음부터 M줄에 걸쳐 연결정보가 주어진다.
+//출력
+//1번 정점에서 각 정점으로 가는 최소 간선수를 2번 정점부터 차례대로 출력하세요.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+vector<int> Question69Map[30];
+bool Question69Found[30];
+int Question69Distance[30];
+queue<int> Question69Que;
+
+void Question69()
+{
+	int NNumber;
+	int MNumber;
+
+	scanf_s("%d %d", &NNumber, &MNumber);
+
+	int X;
+	int Y;
+
+	for (int i = 1; i < MNumber; i++)
+	{
+		scanf_s("%d %d", &X, &Y);
+		Question69Map[X].push_back(Y);
+	}
+
+	Question69Que.push(1);
+	Question69Found[1] = 1;
+
+	while (Question69Que.size() > 0)
+	{
+		int Now = Question69Que.front();
+		Question69Que.pop();
+
+		for (int i = 0; i < Question69Map[Now].size(); i++)
+		{
+			if (Question69Found[Question69Map[Now][i]] == 0)
+			{
+				Question69Found[Question69Map[Now][i]] = 1;
+				Question69Que.push(Question69Map[Now][i]);
+				Question69Distance[Question69Map[Now][i]] = Question69Distance[Now] + 1;
+			}
+		}
+	}
+
+	for (int i = 2; i <= NNumber; i++)
+	{
+		printf("%d : %d\n", i, Question69Distance[i]);
+	}
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//송아지 찾기(BFS : 상태트리 탐색)
+//현수는 송아지를 잃어버렸다. 다행히 송아지에는 위치추적기가 달려 있다.
+//현수의 위치와 솜아지의 위치가 직선상의 좌표 점으로 주어지면 현수는 현재 위치에서 송아지의 위치까지 다음과 같은 방법으로 이동한다.
+//현수는 스카이 콩콩을 타고 가는데 한 번의 점프로 앞으로 1, 뒤로 1, 앞으로 5를 이동할 수 있다.
+//최소 몇 번의 점프로 현수가 송아지의 위치까지 갈 수 있는지 구하는 프로그램을 작성하세요.
+//입력
+//첫 번째 줄에 현수의 위치 S와 송아지의 위치 E가 주어진다.
+//직선의 좌표 점은 1부터 10000까지이다.
+//출력
+//점프의 최소횟수를 구한다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+queue<pair<int, int>> Question70Que;
+bool Found[100000];
+int Distance[] = { -1,1,5 };
+
+void Question70()
+{
+	int PersonLocation;
+	int CowLocation;
+	bool Exit = false;
+
+	//사람과 소 위치 받고
+	scanf_s("%d %d", &PersonLocation, &CowLocation);
+
+	//처음 사람위치를 큐에 넣는다.
+	Question70Que.push({ 0, PersonLocation });
+	Found[PersonLocation] = 1;
+
+	while (Question70Que.size() > 0)
+	{
+		//데이터 뽑고
+		pair<int, int> Data = Question70Que.front();
+		Question70Que.pop();
+
+		for (int i = 0; i < 3; i++)
+		{
+			//뽑은 데이터와 -1 1 5를 순차적으로 더한값을 비교해준다.
+			int Move = Data.second + Distance[i];
+
+			//음수 나오면 다시 진행
+			if (Move < 0)
+			{
+				continue;
+			}
+
+			//소 위치에 도착하면
+			//최단 거리 출력해주고 나간다.
+			if (Move == CowLocation)
+			{
+				printf("%d", Data.first + 1);
+				Exit = true;
+				break;
+			}
+
+			//방문하지 않앗던 곳이라면 방문햇다고 알려주고 거리 + 1 거리값을 넘겨준다.
+			if (Found[Move] == 0)
+			{
+				Found[Move] = 1;
+				Question70Que.push({ Data.first + 1, Move });
+			}
+		}		
+
+		if (Exit == true)
+		{
+			break;
+		}
+	}
+}
+
 int main()
 {
 	//vector<pair<int, int>> A;
 	//A.push_back({1,1});
 
-	Question67();
+	Question70();
 	return 0;
 }

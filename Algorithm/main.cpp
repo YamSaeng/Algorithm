@@ -2475,8 +2475,7 @@ void Question44()
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 //나의 풀이 : 배열을 준비하고 배열의 인덱스 값을 왕자의 번호와 동치 시켜준다.
 //Position을 하나 잡아서 Position을 통해 배열을 순환하며 왕자를 제외시켜준다.
-//왕자를 제외시키는 방법은 해당 인덱스에 1값을 넣어서
-//다음 순환에 값이 1인 곳을 제외시키는 방법을 사용한다.
+//왕자를 제외시키는 방법은 해당 인덱스에 1값을 넣어서 다음 순환에 값이 1인 곳을 제외시키는 방법을 사용한다.
 //Position이 배열의 크기를 넘어가면 앞부분으로 돌려준다.
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 void Question45()
@@ -4093,7 +4092,7 @@ void Question70()
 				Found[Move] = 1;
 				Question70Que.push({ Data.first + 1, Move });
 			}
-		}		
+		}
 
 		if (Exit == true)
 		{
@@ -4102,11 +4101,288 @@ void Question70()
 	}
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//공주 구하기 (조세 퍼스) -> 큐 자료구조로 해결하기
+//정보 왕국의 이웃 나라 외동딸 공주가 숲속의 괴물에게 잡혀갔습니다.
+//정보 왕국에는 왕자가 N명이 있는데 서로 공주를 구하러 가겠다고 합니다.
+//정보왕국의 왕은 다음과 같은 방법으로 공주를 구하러 갈 왕자를 결정하기로 했습니다.
+//왕은 왕자들을 나이 순으로 1번부터 N번까지 차례로 번호를 매긴다. 그리고 1번 왕자부터 N번 왕자까지 순서대로 시계 방향으로 돌아가며 동그랗게 앉게 한다.
+//그리고 1번 왕자부터 시계방향으로 돌아가며 1부터 시작하여 번호를 외치게 한다. 한 왕자가 K(특정숫자)를 외치면 그 왕자는 공주를 구하러 가는데서 제외되고
+//원 밖으로 나오게 된다. 그리고 다음 왕자부터 다시 1부터 시작하여 번호를 외친다.
+//이렇게 해서 마지막까지 남은 왕자가 공주를 구하러 갈 수 있다.
+//         1
+//       8   2
+//     7	   3
+//       6   4
+//         5
+//예를 들어 총 8명의 왕자가 있고, 3을 외친 왕자가 제외된다고 하면, 처음에는 3번 왕자가 3을 외쳐 제외된다.
+//이어 6, 1, 5, 2, 8, 4번 왕자가 차례대로 제외되고 마지막까지 남게 된 7번 왕자에게 공주를 구하러갑니다.
+//N과 K가 주어질 때 공주를 구하러 갈 왕자의 번호를 출력하는 프로그램을 작성하시오.
+//입력
+//첫 줄에 자연수 N(5<=N<=1000)과 K(2<=K<=9)가 주어진다.
+//출력
+//첫 줄에 마지막 남은 왕자의 번호를 출력합니다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+queue<int> Question71Que;
+
+void Question71()
+{
+	int Number;
+	int CallNumber;
+	int Count = 0;
+	int PopData;
+
+	scanf_s("%d %d", &Number, &CallNumber);
+
+	int* Princes = (int*)malloc(sizeof(int) * (Number + 1));
+	memset(Princes, 0, sizeof(int) * (Number + 1));
+
+	//데이터 넣어주고
+	for (int i = 1; i <= Number; i++)
+	{
+		Question71Que.push(i);
+	}
+
+	while (1)
+	{
+		if (Question71Que.size() == 1)
+		{
+			break;
+		}
+
+		Count++;
+
+		//데이터를 뽑아내서 뒤에 꼽다가
+		//Count가 CallNumber - 1 이 되면 왕자를 제외시켜준다.
+		PopData = Question71Que.front();
+		Question71Que.push(PopData);
+
+		Question71Que.pop();
+
+		if (Count == CallNumber - 1)
+		{
+			Count = 0;
+			Question71Que.pop();
+		}
+	}
+
+	PopData = Question71Que.front();
+	Question71Que.pop();
+
+	printf("%d", PopData);
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//최대힙(우선순위 큐)
+//최대힙은 완전이진트리로 구현된 자료구조입니다. 
+//그 구성은 부모 노드값이 왼쪽자식과 오른쪽 자식노드의 값보다 크게 트리를 구성하는 것입니다.
+//그렇게 하면 트리의 루트(Root)노드는 입력된 값들 중 가장 큰 값이 저장되어 있습니다.
+//예를 들어 5 3 2 1 4 6 7순으로 입력되면 최대힙 트리는 아래와 같이 구성됩니다.
+//
+//					7
+//			4				6
+//		1		3		2		5
+//
+//최대힙 자료를 이용하여 다음과 같은 연산을 하는 프로그램을 작성하세요.
+//1) 자연수가 입력되면 최대힙에 입력한다.
+//2) 숫자 0 이 입력되면 최대힙에서 최댓값을 꺼내어 출력한다. (출력할 자료가 없으면 -1를 출력한다.)
+//3) -1이 입력되면 프로그램을 종료한다.
+//입력
+//첫 번째 줄부터 숫자가 입력된다. 입력되는 숫자는 100000개 이하이며 각 숫자의 크기는 정수형 범위에 있다.
+//출력
+//연산을 한 결과를 보여준다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+vector<int> Question72HeapArray;
+
+void PushHeap(int Data)
+{
+	//맨 끝에 새로운 데이터를 삽입해준다.
+	Question72HeapArray.push_back(Data);
+
+	int NowIndex = Question72HeapArray.size() - 1;
+
+	while (NowIndex > 0)
+	{
+		//부모 인덱스를 구해준다.
+		int ParentIndex = (NowIndex - 1) / 2;
+
+		//부모 값이 바꿔줘야할 삽입한 데이터보다 크다면 탈출한다.
+		if (Question72HeapArray[ParentIndex] > Question72HeapArray[NowIndex])
+		{
+			break;
+		}
+
+		//삽입한 데이터가 부모 보다 크다면 서로 바꿔준다.
+		int Temp = Question72HeapArray[NowIndex];
+		Question72HeapArray[NowIndex] = Question72HeapArray[ParentIndex];
+		Question72HeapArray[ParentIndex] = Temp;
+
+		//검사 위치를 부모인덱스로 바꿔준다.
+		NowIndex = ParentIndex;
+	}
+}
+
+int PopHeap()
+{
+	//맨 앞에 있는 데이터가 최대 값이므로 꺼내오고
+	int PopData = Question72HeapArray[0];
+
+	//마지막 전 위치를 가져온다. 가장 뒤 앞에 있는 데이터를 처음 값에 넣어야 하므로
+	int LastIndex = Question72HeapArray.size() - 1;
+	Question72HeapArray[0] = Question72HeapArray[LastIndex];
+	Question72HeapArray.pop_back();
+
+	LastIndex--;
+
+	int Now = 0;
+
+	while (1)
+	{
+		//왼쪽 자식
+		int Left = 2 * Now + 1;
+		//오른쪽 자식
+		int Right = 2 * Now + 2;
+
+		int Next = Now;
+
+		//왼쪽값이 현재값보다 크면, 왼쪽아래로 이동해준다.
+		if (LastIndex >= Left && Question72HeapArray[Left] > Question72HeapArray[Next])
+		{
+			Next = Left;
+		}
+
+		//오른쪽 값이 현재값(위에서 검사한 왼쪽값 검사한 값을 포함해서)보다 크면, 오른쪽 아래로 이동해준다.
+		if (LastIndex >= Right && Question72HeapArray[Right] > Question72HeapArray[Next])
+		{
+			Next = Right;
+		}
+
+		//왼쪽 오른쪽 모두 현재값보다 작으면 탈출한다.
+		if (Next == Now)
+		{
+			break;
+		}
+
+		//두 값을 교체해준다.
+		int Temp = Question72HeapArray[Now];
+		Question72HeapArray[Now] = Question72HeapArray[Next];
+		Question72HeapArray[Next] = Temp;
+
+		//검사 위치를 이동한다.
+		Now = Next;
+	}
+
+	return PopData;
+}
+
+void Question72()
+{
+	int Number;
+	int Count = 0;
+	int Answer[50];
+
+	memset(Answer, 0, sizeof(int) * 50);
+
+	while (1)
+	{
+		scanf_s("%d", &Number);
+
+		if (Number == -1)
+		{
+			break;
+		}
+		else if (Number == 0)
+		{
+			int PopData = PopHeap();
+			Answer[Count] = PopData;
+			Count++;
+		}
+		else
+		{
+			PushHeap(Number);
+		}
+	}
+
+	for (int i = 0; i < Count; i++)
+	{
+		printf("%d\n", Answer[i]);
+	}
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//팩토리얼(n!) 출력
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+void Factorial(int Answer, int Number)
+{
+	int _Answer = Answer * Number;
+
+	if (Number == 1)
+	{
+		printf("%d", _Answer);
+		return;
+	}
+	else
+	{
+		Factorial(_Answer, Number - 1);
+	}
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//조합(nCr) 출력
+//반복되는 값을 메모이제이션을 이용해 시간을 줄여준다.
+//만약 3C2를 왼쪽 트리에서 발견햇을때 값이 3이면
+//다음번에 3C2가 나올경우 재귀 호출 하지 말고 기록해둔 3 값을 꺼내오면 3C2를 구할때의 재귀 호출을 안해도 되는 것
+//위와 같은 상황을 메모이제이션을 이용한다고 할 수 있다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+int Question74Memo[21][21];
+
+int Combination(int NNumber, int RNumber)
+{
+	if (Question74Memo[NNumber][RNumber] > 0)
+	{
+		return Question74Memo[NNumber][RNumber];
+	}
+
+	//왼쪽과 오른쪽으로 뻗어나가다가 N과 R이 같아지거나 R이 0이되는 시점에 1을 반환해준다.
+	if (NNumber == RNumber || RNumber == 0)
+	{
+		return 1;
+	}
+	else
+	{
+		//왼쪽과 오른쪽으로 내려가면서 조건에 맞으면 1을 반환한 후 더해준다.
+		return Question74Memo[NNumber][RNumber] = Combination(NNumber - 1, RNumber - 1) + Combination(NNumber - 1, RNumber);
+	}
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//이항계수(메모이제이션)
+//이항계수는 N개의 원소를 가지는 집합에서 R개의 원소를 뽑아 부분집합을 만드는 경우의 수를 의미한다.
+//공식은 nCr로 표현된다.
+//N과 R이 주어지면 이항계수를 구하는 프로그램을 작성하세요
+//입력
+//첫 번째 줄에 자연수 N(1<=N<=20)과 R(0<=R<=20)이 주어진다. 단 (N>=R)
+//출력
+//첫 번째 줄에 이항계수 값을 출력한다.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+void Question74()
+{
+	int NNumber;
+	int RNumber;
+
+	scanf_s("%d %d", &NNumber, &RNumber);
+
+	//Factorial(1, NNumber);
+
+	printf("%d", Combination(NNumber, RNumber));
+}
+
 int main()
 {
 	//vector<pair<int, int>> A;
 	//A.push_back({1,1});
 
-	Question70();
+	Question74();
+
 	return 0;
 }

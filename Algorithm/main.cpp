@@ -4465,12 +4465,107 @@ void Question75()
 	}
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//다익스트라 알고리즘
+//아래의 가중치 방향그래프에서 1번 정점에서 모든 정점으로의 최소 거리비용을 출력하는 프로그램을 작성하세요.
+//(경로가 없으면 Impossible를 출력)
+//입력
+//첫째 줄에 정점의 수 N(1<=N<=20)과 간선의 M이 주어진다.
+//그 다음부터 M줄에 걸쳐 연결정보와 거리비용이 주어진다.
+//출력
+//1번 정점에서 각 정점으로 가는 최소비용을 2번 정점부터	차례대로 출력하세요.
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//시작 노드를 설정 후
+//시작 노드를 기준으로 각 노드의 최소 비용을 저장한다.
+//방문하지 않은 노드 중에서 가장 비용이 적은 노드를 선택한다.
+//해당 노드를 거쳐서 특정한 노드로 가는 경우를 고려하여 최소 비용을 갱신한다.
+struct st_Edge
+{
+	int _Vertex;
+	int _Distance;
+
+	st_Edge(int Vertex, int Distance)
+ 	{
+		_Vertex = Vertex;
+		_Distance = Distance;
+;	}
+
+	bool operator<(const st_Edge &NewEdge) const
+	{
+		return _Distance > NewEdge._Distance;
+	}
+};
+
+void Question76()
+{
+	priority_queue<st_Edge> Que;
+
+	vector<pair<int, int>> Graph[30];
+
+	int NNumber;
+	int MNumber;
+
+	scanf_s("%d %d", &NNumber, &MNumber);
+
+	int* Array = (int*)malloc(sizeof(int) * (NNumber + 1));
+	memset(Array, 1, sizeof(int) * (NNumber + 1));
+
+	for (int i = 0; i < MNumber; i++)
+	{
+		int X;
+		int Y;
+		int Z;
+
+		scanf_s("%d %d %d", &X, &Y, &Z);
+
+		Graph[X].push_back({Y,Z});
+	}
+
+	//시작노드를 설정해준다.
+	st_Edge First(1,0);	
+	Que.push(First);
+
+	Array[1] = 0;
+	
+	//큐가 비워질때까지 반복한다.
+	while (Que.size() > 0)
+	{
+		//큐에 있는걸 뽑아서 온다.
+		st_Edge Now = Que.top();
+		Que.pop();
+
+		//들어 있는 값보다 값이 크다면 무시해준다.
+		if (Now._Distance > Array[Now._Vertex])
+		{
+			continue;
+		}
+
+		for (int i = 0; i < Graph[Now._Vertex].size(); i++)
+		{
+			//선택한 노드의 인접 노드를 가져온다.
+			int Next = Graph[Now._Vertex][i].first;
+			//선택한 노드를 인접노드로 거쳐서 가는 비용을 계산해준다.
+			int NextDistance = Now._Distance + Graph[Now._Vertex][i].second;
+
+			//기존의 최소 비용보다 더 낮다면 값을 교체해준다.
+			if (Array[Next] > NextDistance)
+			{
+				Array[Next] = NextDistance;
+
+				st_Edge NextEdge(Next, NextDistance);
+				Que.push(NextEdge);
+			}
+		}
+	}
+}
+
 int main()
 {
 	//vector<pair<int, int>> A;
 	//A.push_back({1,1});
 
-	Question75();
+	Question76();
 
 	return 0;
 }
